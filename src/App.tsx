@@ -1,6 +1,5 @@
 import Header from './components/Header'
 import Hero from './components/Hero'
-import LogoStrip from './components/LogoStrip'
 import VideoTestimonials from './components/VideoTestimonials'
 import FeatureSection from './components/FeatureSection'
 import TextTestimonials from './components/TextTestimonials'
@@ -14,7 +13,6 @@ function App() {
       <Header />
       <main>
         <Hero />
-        <LogoStrip />
         <VideoTestimonials />
         <FeatureSection />
         <TextTestimonials />

@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { step1Schema, type Step1Values } from '../../lib/schemas'
 import { submitStep1 } from '../../lib/submitLead'
-import { FieldError, FieldLabel, inputClass } from './FormAtoms'
+import { FieldError, FieldLabel, SubmitButton, SubmitError, inputClass } from './FormAtoms'
 
 interface Step1Props {
   leadId: string
@@ -36,19 +36,25 @@ export default function Step1({ leadId, defaultValues, onSuccess }: Step1Props) 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
       <div>
-        <FieldLabel htmlFor="name">Name</FieldLabel>
+        <FieldLabel htmlFor="name" required>
+          Name
+        </FieldLabel>
         <input id="name" type="text" autoComplete="name" className={inputClass} {...register('name')} />
         <FieldError message={errors.name?.message} />
       </div>
 
       <div>
-        <FieldLabel htmlFor="email">Business Email</FieldLabel>
+        <FieldLabel htmlFor="email" required>
+          Business Email
+        </FieldLabel>
         <input id="email" type="email" autoComplete="email" className={inputClass} {...register('email')} />
         <FieldError message={errors.email?.message} />
       </div>
 
       <div>
-        <FieldLabel htmlFor="phone">Phone number</FieldLabel>
+        <FieldLabel htmlFor="phone" required>
+          Phone number
+        </FieldLabel>
         <input id="phone" type="tel" autoComplete="tel" className={inputClass} {...register('phone')} />
         <FieldError message={errors.phone?.message} />
       </div>
@@ -59,22 +65,16 @@ export default function Step1({ leadId, defaultValues, onSuccess }: Step1Props) 
         <FieldError message={errors.company?.message} />
       </div>
 
-      {submitError && (
-        <div role="alert" className="rounded-lg border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
-          {submitError}
-        </div>
-      )}
+      <SubmitError message={submitError} />
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full rounded-xl bg-brand-blue px-6 py-3 font-semibold text-white transition hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-60"
-      >
-        {isSubmitting ? 'Please wait…' : 'Next'}
-      </button>
+      <SubmitButton pending={isSubmitting} label="Next" />
 
-      <p className="text-center text-xs text-white/50">
-        For information about how VirtualPools handles your personal data, please see our Privacy Policy.
+      <p className="text-center text-xs text-brand-slate">
+        For information about how VirtualPools handles your personal data, please see our{' '}
+        <a href="#" className="text-blue-700 underline">
+          Privacy Policy
+        </a>
+        .
       </p>
     </form>
   )

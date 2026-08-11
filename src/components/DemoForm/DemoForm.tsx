@@ -20,9 +20,14 @@ export default function DemoForm() {
   const [step2Values, setStep2Values] = useState<Step2Values | null>(null)
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-6 shadow-2xl backdrop-blur-sm sm:p-8">
+    <div
+      className="rounded-[10px] bg-white p-6 sm:p-8"
+      style={{ boxShadow: '0 20px 60px 0 rgba(7, 0, 47, 0.2)' }}
+    >
       {step < 3 && (
-        <h2 className="mb-1 text-lg font-bold text-white">Request a demo with one of the founders</h2>
+        <h2 className="mb-4 text-sm font-medium tracking-wide text-brand-ink uppercase">
+          Request a demo with one of the <span className="font-bold">founders</span>
+        </h2>
       )}
 
       <StepIndicator step={step} />

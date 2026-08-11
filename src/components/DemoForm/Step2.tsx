@@ -11,7 +11,7 @@ import {
   type Step2Values,
 } from '../../lib/schemas'
 import { submitStep2 } from '../../lib/submitLead'
-import { FieldError, FieldLabel, PillOption, inputClass } from './FormAtoms'
+import { FieldError, FieldLabel, PillOption, SubmitButton, SubmitError, inputClass } from './FormAtoms'
 
 interface Step2Props {
   leadId: string
@@ -63,7 +63,7 @@ export default function Step2({ leadId, step1Values, defaultValues, onSuccess }:
       </div>
 
       <div>
-        <FieldLabel>Role</FieldLabel>
+        <FieldLabel required>Role</FieldLabel>
         <div className="grid grid-cols-2 gap-2">
           {ROLE_OPTIONS.map((opt) => (
             <PillOption key={opt} htmlFor={`role-${opt}`} checked={selectedRole === opt}>
@@ -76,7 +76,7 @@ export default function Step2({ leadId, step1Values, defaultValues, onSuccess }:
       </div>
 
       <div>
-        <FieldLabel>How many pools do you sell per year?</FieldLabel>
+        <FieldLabel required>How many pools do you sell per year?</FieldLabel>
         <div className="grid grid-cols-4 gap-2">
           {POOLS_SOLD_PER_YEAR_OPTIONS.map((opt) => (
             <PillOption key={opt} htmlFor={`pools-${opt}`} checked={selectedPoolsPerYear === opt}>
@@ -95,7 +95,9 @@ export default function Step2({ leadId, step1Values, defaultValues, onSuccess }:
       </div>
 
       <div>
-        <FieldLabel htmlFor="salesTeamSize">How many people at your company are responsible for sales?</FieldLabel>
+        <FieldLabel htmlFor="salesTeamSize" required>
+          How many people at your company are responsible for sales?
+        </FieldLabel>
         <input
           id="salesTeamSize"
           type="number"
@@ -108,7 +110,7 @@ export default function Step2({ leadId, step1Values, defaultValues, onSuccess }:
       </div>
 
       <div>
-        <FieldLabel>What would you like to achieve with our tool?</FieldLabel>
+        <FieldLabel required>What would you like to achieve with our tool?</FieldLabel>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           {GOAL_OPTIONS.map((opt) => (
             <PillOption key={opt} htmlFor={`goal-${opt}`} checked={selectedGoals.includes(opt)}>
@@ -134,7 +136,7 @@ export default function Step2({ leadId, step1Values, defaultValues, onSuccess }:
       </div>
 
       <div>
-        <FieldLabel>Do you do pool renovations?</FieldLabel>
+        <FieldLabel required>Do you do pool renovations?</FieldLabel>
         <div className="grid grid-cols-2 gap-2">
           <PillOption htmlFor="renovations-yes" checked={selectedRenovations === 'yes'}>
             <input
@@ -155,33 +157,21 @@ export default function Step2({ leadId, step1Values, defaultValues, onSuccess }:
       </div>
 
       <div>
-        <FieldLabel htmlFor="hearAboutUs">How did you hear about us?</FieldLabel>
+        <FieldLabel htmlFor="hearAboutUs" required>
+          How did you hear about us?
+        </FieldLabel>
         <input id="hearAboutUs" type="text" className={inputClass} {...register('hearAboutUs')} />
         <FieldError message={errors.hearAboutUs?.message} />
       </div>
 
-      <label className="flex items-start gap-2.5 text-sm text-white/80">
-        <input
-          type="checkbox"
-          className="mt-0.5 size-4 rounded border-white/30 bg-white/10 text-brand-blue accent-brand-blue"
-          {...register('wantsUpdates')}
-        />
+      <label className="flex items-start gap-2.5 text-sm text-brand-slate">
+        <input type="checkbox" className="mt-0.5 size-4 rounded border-[#d9d8d8] accent-brand-blue" {...register('wantsUpdates')} />
         I want to receive occasional updates from you.
       </label>
 
-      {submitError && (
-        <div role="alert" className="rounded-lg border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
-          {submitError}
-        </div>
-      )}
+      <SubmitError message={submitError} />
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full rounded-xl bg-brand-blue px-6 py-3 font-semibold text-white transition hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-60"
-      >
-        {isSubmitting ? 'Please wait…' : 'Book a demo'}
-      </button>
+      <SubmitButton pending={isSubmitting} label="Book a demo" />
     </form>
   )
 }

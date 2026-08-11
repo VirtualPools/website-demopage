@@ -5,7 +5,7 @@ function VideoCard({ id, title }: { id: string; title: string }) {
   const [loaded, setLoaded] = useState(false)
 
   return (
-    <div className="aspect-video overflow-hidden rounded-xl bg-black">
+    <div className="aspect-video overflow-hidden rounded-xl bg-black shadow-lg ring-1 ring-black/5">
       {loaded ? (
         <iframe
           className="h-full w-full"
@@ -43,9 +43,9 @@ function VideoCard({ id, title }: { id: string; title: string }) {
 
 export default function VideoTestimonials() {
   return (
-    <section className="bg-[#0a0d16] py-20">
+    <section className="bg-white py-20">
       <div className="mx-auto max-w-6xl px-6">
-        <h2 className="mb-10 text-center text-3xl font-bold text-white sm:text-4xl">
+        <h2 className="mb-10 text-center text-3xl font-bold text-brand-ink sm:text-4xl">
           Pool builders like you love VirtualPools!
         </h2>
         <div className="grid gap-6 sm:grid-cols-3">
