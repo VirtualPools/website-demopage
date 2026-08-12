@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { isValidPhoneNumber } from 'react-phone-number-input'
 
 export const ROLE_OPTIONS = [
   'CEO / Founder / Owner',
@@ -23,7 +24,13 @@ export const POOL_TYPE_OPTIONS = ['Traditional (custom-built)', 'Monoblock (one-
 export const step1Schema = z.object({
   name: z.string().trim().min(1, 'Name is required'),
   email: z.string().trim().min(1, 'Business email is required').email('Enter a valid email address'),
-  phone: z.string().trim().min(1, 'Phone number is required'),
+  // Comes out of the phone input as a full E.164 string (e.g. "+32470123456") —
+  // the country code is always included, never a separately-entered field.
+  phone: z
+    .string()
+    .trim()
+    .min(1, 'Phone number is required')
+    .refine((v) => isValidPhoneNumber(v), 'Enter a valid phone number'),
   company: z.string().trim().optional(),
 })
 

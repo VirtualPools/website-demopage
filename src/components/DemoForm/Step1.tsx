@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { step1Schema, type Step1Values } from '../../lib/schemas'
 import { submitStep1 } from '../../lib/submitLead'
 import { FieldError, FieldLabel, SubmitButton, SubmitError, inputClass } from './FormAtoms'
+import { PhoneField } from './PhoneField'
 
 interface Step1Props {
   leadId: string
@@ -16,6 +17,7 @@ export default function Step1({ leadId, defaultValues, onSuccess }: Step1Props) 
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<Step1Values>({
     resolver: zodResolver(step1Schema),
@@ -55,7 +57,11 @@ export default function Step1({ leadId, defaultValues, onSuccess }: Step1Props) 
         <FieldLabel htmlFor="phone" required>
           Phone number
         </FieldLabel>
-        <input id="phone" type="tel" autoComplete="tel" className={inputClass} {...register('phone')} />
+        <Controller
+          control={control}
+          name="phone"
+          render={({ field }) => <PhoneField id="phone" value={field.value} onChange={field.onChange} />}
+        />
         <FieldError message={errors.phone?.message} />
       </div>
 

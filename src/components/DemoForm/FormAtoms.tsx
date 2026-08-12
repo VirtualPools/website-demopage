@@ -160,6 +160,67 @@ export function MultiSelectOption({
   )
 }
 
+// Big +/- stepper instead of a native number input's tiny up/down spinner. The
+// text field only ever holds digits — every keystroke/paste is filtered through
+// digitsOnly, so a non-numeric character can never actually land in the value.
+function digitsOnly(raw: string) {
+  return raw.replace(/\D/g, '')
+}
+
+export function NumberStepper({
+  id,
+  value,
+  onChange,
+  min = 0,
+}: {
+  id: string
+  value: string
+  onChange: (value: string) => void
+  min?: number
+}) {
+  const numeric = Number(value) || 0
+
+  const decrement = () => onChange(String(Math.max(min, numeric - 1)))
+  const increment = () => onChange(String(numeric + 1))
+
+  return (
+    <div className="flex items-center gap-3">
+      <button
+        type="button"
+        onClick={decrement}
+        aria-label="Decrease"
+        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#d9d8d8] text-xl font-medium text-brand-blue transition hover:bg-brand-blue/5 active:scale-95"
+      >
+        −
+      </button>
+      <input
+        id={id}
+        type="text"
+        inputMode="numeric"
+        pattern="[0-9]*"
+        value={value}
+        onChange={(e) => onChange(digitsOnly(e.target.value))}
+        onKeyDown={(e) => {
+          if (e.key.length === 1 && !/\d/.test(e.key) && !e.ctrlKey && !e.metaKey) e.preventDefault()
+        }}
+        onPaste={(e) => {
+          e.preventDefault()
+          onChange(digitsOnly(e.clipboardData.getData('text')))
+        }}
+        className="w-full rounded-[5px] border border-[#d9d8d8] bg-white px-4 py-2.5 text-center text-brand-ink outline-none transition focus:border-brand-blue focus:ring-1 focus:ring-brand-blue"
+      />
+      <button
+        type="button"
+        onClick={increment}
+        aria-label="Increase"
+        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#d9d8d8] text-xl font-medium text-brand-blue transition hover:bg-brand-blue/5 active:scale-95"
+      >
+        +
+      </button>
+    </div>
+  )
+}
+
 // PrimeNG-style SelectButton: a connected segmented control where the active option
 // gets a solid fill that glides between buttons via a shared `layoutId`, rather than
 // each button independently swapping its own background.

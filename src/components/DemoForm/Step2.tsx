@@ -11,7 +11,17 @@ import {
   type Step2Values,
 } from '../../lib/schemas'
 import { submitStep2 } from '../../lib/submitLead'
-import { FieldError, FieldLabel, MultiSelectOption, Select, SelectButtonGroup, SubmitButton, SubmitError, inputClass } from './FormAtoms'
+import {
+  FieldError,
+  FieldLabel,
+  MultiSelectOption,
+  NumberStepper,
+  Select,
+  SelectButtonGroup,
+  SubmitButton,
+  SubmitError,
+  inputClass,
+} from './FormAtoms'
 import { RangeSlider } from './Slider'
 
 interface Step2Props {
@@ -34,6 +44,7 @@ export default function Step2({ leadId, step1Values, defaultValues, onSuccess }:
       goals: [],
       poolType: [],
       poolsSoldPerYear: POOLS_SOLD_PER_YEAR_OPTIONS[0],
+      salesTeamSize: '0',
       doesRenovations: 'no',
       wantsUpdates: false,
       ...defaultValues,
@@ -85,16 +96,11 @@ export default function Step2({ leadId, step1Values, defaultValues, onSuccess }:
       </div>
 
       <div>
-        <FieldLabel htmlFor="salesTeamSize" required>
-          How many people at your company are responsible for sales?
-        </FieldLabel>
-        <input
-          id="salesTeamSize"
-          type="number"
-          min={0}
-          inputMode="numeric"
-          className={inputClass}
-          {...register('salesTeamSize')}
+        <FieldLabel htmlFor="salesTeamSize">How many people at your company are responsible for sales?</FieldLabel>
+        <Controller
+          control={control}
+          name="salesTeamSize"
+          render={({ field }) => <NumberStepper id="salesTeamSize" value={field.value} onChange={field.onChange} />}
         />
         <FieldError message={errors.salesTeamSize?.message} />
       </div>
