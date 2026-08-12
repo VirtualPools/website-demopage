@@ -1,11 +1,13 @@
 import PhoneInputBase from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
+import { CountrySelect } from './CountrySelect'
 
 // Country-code selector + number input, matching the intl-tel-input style: pick a
-// country from the flag dropdown and its calling code is prefixed automatically —
-// `countryCallingCodeEditable={false}` stops it from being typed/edited directly.
-// The resulting value is a full E.164 string (e.g. "+32470123456"), so the country
-// code always travels with the number, including in the n8n payload.
+// country from the searchable flag dropdown (see CountrySelect.tsx) and its calling
+// code is prefixed automatically — `countryCallingCodeEditable={false}` stops it
+// from being typed/edited directly. The resulting value is a full E.164 string
+// (e.g. "+32470123456"), so the country code always travels with the number,
+// including in the n8n payload.
 export function PhoneField({
   id,
   value,
@@ -24,6 +26,7 @@ export function PhoneField({
         defaultCountry="BE"
         value={value}
         onChange={(v) => onChange(v ?? '')}
+        countrySelectComponent={CountrySelect}
       />
       <style>{`
         .PhoneInput {
@@ -47,20 +50,6 @@ export function PhoneField({
           background: transparent;
           font-size: inherit;
           color: #1a1a1a;
-        }
-        .PhoneInputCountry {
-          display: flex;
-          align-items: center;
-          gap: 0.375rem;
-          margin-right: 0.25rem;
-        }
-        .PhoneInputCountryIcon {
-          width: 1.4em;
-          height: 1.4em;
-          box-shadow: none;
-        }
-        .PhoneInputCountrySelectArrow {
-          opacity: 0.6;
         }
       `}</style>
     </>
