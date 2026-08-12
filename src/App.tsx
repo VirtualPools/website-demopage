@@ -12,9 +12,9 @@ function App() {
   const [step, setStep] = useState<1 | 2 | 3>(1)
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <Header />
-      <main>
+      <main className="flex-1">
         <DemoExperience step={step} onStepChange={setStep} />
         {step === 1 && (
           <>
@@ -27,7 +27,7 @@ function App() {
         )}
       </main>
       <Footer />
-    </>
+    </div>
   )
 }
 

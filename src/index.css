@@ -29,9 +29,14 @@
 
 html {
   scroll-behavior: smooth;
+  /* This site is light-themed only — without this, browsers in system dark mode
+     paint their own dark default canvas behind any transparent element (e.g. the
+     flex-1 spacer in <main>), showing through as an unwanted dark/black gap. */
+  color-scheme: light;
 }
 
 body {
   font-family: var(--font-sans);
   color: var(--color-brand-ink);
+  background-color: #ffffff;
 }
