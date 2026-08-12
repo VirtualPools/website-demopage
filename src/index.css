@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* Self-hosted font — weights actually used across the site (400 body, 500/600/700 headings/labels). */
+@import "@fontsource/plus-jakarta-sans/400.css";
+@import "@fontsource/plus-jakarta-sans/500.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
+@import "@fontsource/plus-jakarta-sans/700.css";
+
 /*
  * Brand tokens pulled from the live Dorik site's computed styles
  * (primary blue #035cfc, cyan-to-blue header gradient, Plus Jakarta Sans).
