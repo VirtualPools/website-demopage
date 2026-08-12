@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
-import { CLIENT_LOGOS, HERO_CONTENT } from '../data/content'
+import { HERO_CONTENT } from '../data/content'
 import DemoForm from './DemoForm/DemoForm'
+import LogoCarousel from './LogoCarousel'
 
 // FontAwesome "check" glyph — matches the icon used on the live /demo page.
 function CheckIcon() {
@@ -53,10 +54,8 @@ export default function Hero() {
 
           <div className="mt-10">
             <p className="text-sm font-medium text-brand-ink">Trusted by:</p>
-            <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-4">
-              {CLIENT_LOGOS.map((logo) => (
-                <img key={logo.name} src={logo.src} alt={logo.name} className="h-7 w-auto object-contain" />
-              ))}
+            <div className="mt-4">
+              <LogoCarousel />
             </div>
           </div>
         </motion.div>
