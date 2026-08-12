@@ -11,7 +11,7 @@ import {
   type Step2Values,
 } from '../../lib/schemas'
 import { submitStep2 } from '../../lib/submitLead'
-import { FieldError, FieldLabel, MultiSelectOption, Select, SubmitButton, SubmitError, ToggleSwitch, inputClass } from './FormAtoms'
+import { FieldError, FieldLabel, MultiSelectOption, Select, SelectButtonGroup, SubmitButton, SubmitError, inputClass } from './FormAtoms'
 import { RangeSlider } from './Slider'
 
 interface Step2Props {
@@ -160,7 +160,16 @@ export default function Step2({ leadId, step1Values, defaultValues, onSuccess }:
         <Controller
           control={control}
           name="doesRenovations"
-          render={({ field }) => <ToggleSwitch value={field.value} onChange={field.onChange} />}
+          render={({ field }) => (
+            <SelectButtonGroup
+              options={[
+                { value: 'yes', label: 'Yes' },
+                { value: 'no', label: 'No' },
+              ]}
+              value={field.value}
+              onChange={field.onChange}
+            />
+          )}
         />
         <FieldError message={errors.doesRenovations?.message} />
       </div>

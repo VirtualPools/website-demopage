@@ -1,4 +1,9 @@
-// Fixed-step range slider — snaps to one of `options` rather than a continuous value.
+import { useId } from 'react'
+import { motion } from 'framer-motion'
+
+// Fixed-step range slider — snaps to one of `options`. Every value is listed below
+// the track (clickable too), with the active one highlighted and tracked by a
+// sliding underline that glides between positions via a shared `layoutId`.
 export function RangeSlider({
   id,
   options,
@@ -10,11 +15,11 @@ export function RangeSlider({
   value: string
   onChange: (value: string) => void
 }) {
+  const sliderId = useId()
   const index = Math.max(0, options.indexOf(value))
 
   return (
     <div>
-      <p className="mb-2 text-center text-lg font-semibold text-brand-blue">{options[index]}</p>
       <input
         id={id}
         type="range"
@@ -25,9 +30,29 @@ export function RangeSlider({
         onChange={(e) => onChange(options[Number(e.target.value)])}
         className="brand-range w-full"
       />
-      <div className="mt-1 flex justify-between text-xs text-brand-slate">
-        <span>{options[0]}</span>
-        <span>{options[options.length - 1]}</span>
+      <div className="mt-2 flex justify-between">
+        {options.map((opt, i) => {
+          const active = i === index
+          return (
+            <button
+              key={opt}
+              type="button"
+              onClick={() => onChange(opt)}
+              className={`relative px-0.5 pb-2 text-[11px] transition-colors sm:text-xs ${
+                active ? 'font-semibold text-brand-blue' : 'text-brand-slate/60 hover:text-brand-slate'
+              }`}
+            >
+              {opt}
+              {active && (
+                <motion.span
+                  layoutId={`slider-tick-${sliderId}`}
+                  className="absolute inset-x-0 bottom-0 h-0.5 rounded-full bg-brand-blue"
+                  transition={{ type: 'spring', stiffness: 500, damping: 32 }}
+                />
+              )}
+            </button>
+          )
+        })}
       </div>
 
       <style>{`

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useId, type ReactNode } from 'react'
 import type { UseFormRegisterReturn } from 'react-hook-form'
 import { AnimatePresence, motion } from 'framer-motion'
 
@@ -160,27 +160,44 @@ export function MultiSelectOption({
   )
 }
 
-// Yes/No switch — a real toggle always has a position, so unlike the other fields
-// there's no "unanswered" placeholder state; it defaults to "No" until touched.
-export function ToggleSwitch({ value, onChange }: { value: 'yes' | 'no'; onChange: (value: 'yes' | 'no') => void }) {
-  const isYes = value === 'yes'
+// PrimeNG-style SelectButton: a connected segmented control where the active option
+// gets a solid fill that glides between buttons via a shared `layoutId`, rather than
+// each button independently swapping its own background.
+export function SelectButtonGroup<T extends string>({
+  options,
+  value,
+  onChange,
+}: {
+  options: readonly { value: T; label: string }[]
+  value: T
+  onChange: (value: T) => void
+}) {
+  const groupId = useId()
   return (
-    <div className="inline-flex items-center gap-3">
-      <span className={`text-sm font-medium ${!isYes ? 'text-brand-blue' : 'text-brand-slate'}`}>No</span>
-      <button
-        type="button"
-        role="switch"
-        aria-checked={isYes}
-        onClick={() => onChange(isYes ? 'no' : 'yes')}
-        className={`relative h-7 w-12 shrink-0 rounded-full transition-colors ${isYes ? 'bg-brand-blue' : 'bg-slate-300'}`}
-      >
-        <motion.span
-          className="absolute top-0.5 left-0.5 h-6 w-6 rounded-full bg-white shadow"
-          animate={{ x: isYes ? 20 : 0 }}
-          transition={{ type: 'spring', stiffness: 500, damping: 32 }}
-        />
-      </button>
-      <span className={`text-sm font-medium ${isYes ? 'text-brand-blue' : 'text-brand-slate'}`}>Yes</span>
+    <div className="inline-flex gap-1 rounded-[5px] border border-[#d9d8d8] bg-white p-1">
+      {options.map((opt) => {
+        const selected = opt.value === value
+        return (
+          <button
+            key={opt.value}
+            type="button"
+            aria-pressed={selected}
+            onClick={() => onChange(opt.value)}
+            className={`relative rounded-[4px] px-4 py-1.5 text-sm font-medium transition-colors ${
+              selected ? 'text-white' : 'text-brand-slate hover:text-brand-ink'
+            }`}
+          >
+            {selected && (
+              <motion.span
+                layoutId={`select-button-${groupId}`}
+                className="absolute inset-0 rounded-[4px] bg-brand-blue"
+                transition={{ type: 'spring', stiffness: 500, damping: 32 }}
+              />
+            )}
+            <span className="relative z-10">{opt.label}</span>
+          </button>
+        )
+      })}
     </div>
   )
 }
