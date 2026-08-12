@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { getOrCreateLeadId } from '../../lib/leadId'
 import type { Step1Values, Step2Values } from '../../lib/schemas'
-import StepIndicator from './StepIndicator'
 import Step1 from './Step1'
 import Step2 from './Step2'
 import Step3 from './Step3'
@@ -25,12 +24,10 @@ export default function DemoForm() {
       style={{ boxShadow: '0 20px 60px 0 rgba(7, 0, 47, 0.2)' }}
     >
       {step < 3 && (
-        <h2 className="mb-4 text-sm font-medium tracking-wide text-brand-ink uppercase">
+        <h2 className="mb-6 text-sm font-medium tracking-wide text-brand-ink uppercase">
           Request a demo with one of the <span className="font-bold">founders</span>
         </h2>
       )}
-
-      <StepIndicator step={step} />
 
       <AnimatePresence mode="wait" initial={false}>
         <motion.div

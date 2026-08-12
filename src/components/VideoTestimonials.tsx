@@ -1,8 +1,8 @@
-import { useState } from 'react'
-import { VIDEO_TESTIMONIALS } from '../data/content'
+import { useState } from "react";
+import { VIDEO_TESTIMONIALS } from "../data/content";
 
 function VideoCard({ id, title }: { id: string; title: string }) {
-  const [loaded, setLoaded] = useState(false)
+  const [loaded, setLoaded] = useState(false);
 
   return (
     <div className="aspect-video overflow-hidden rounded-xl bg-black shadow-lg ring-1 ring-black/5">
@@ -30,7 +30,11 @@ function VideoCard({ id, title }: { id: string; title: string }) {
           />
           <span className="absolute inset-0 flex items-center justify-center">
             <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-brand-blue shadow-lg transition group-hover:scale-110">
-              <svg viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6 translate-x-px">
+              <svg
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="h-6 w-6 translate-x-px"
+              >
                 <path d="M8 5v14l11-7z" />
               </svg>
             </span>
@@ -38,7 +42,7 @@ function VideoCard({ id, title }: { id: string; title: string }) {
         </button>
       )}
     </div>
-  )
+  );
 }
 
 export default function VideoTestimonials() {
@@ -55,5 +59,5 @@ export default function VideoTestimonials() {
         </div>
       </div>
     </section>
-  )
+  );
 }
