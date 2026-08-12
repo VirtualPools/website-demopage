@@ -1,4 +1,4 @@
-import { CTA_BAND } from '../data/content'
+import { CTA_BAND } from "../data/content";
 
 // Deliberate simplification vs. the live site, which mounts a second, fully
 // independent 3-step form further down the page. Here the CTA just scrolls
@@ -8,7 +8,9 @@ export default function CtaBand() {
   return (
     <section className="bg-white py-20">
       <div className="mx-auto max-w-3xl px-6 text-center">
-        <h2 className="text-3xl font-bold text-brand-ink sm:text-4xl">{CTA_BAND.heading}</h2>
+        <h2 className="text-3xl font-bold text-brand-ink sm:text-4xl">
+          {CTA_BAND.heading}
+        </h2>
         <p className="mt-4 text-brand-slate">{CTA_BAND.body}</p>
         <a
           href="#demo-form"
@@ -18,5 +20,5 @@ export default function CtaBand() {
         </a>
       </div>
     </section>
-  )
+  );
 }

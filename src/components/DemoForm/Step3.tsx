@@ -20,10 +20,13 @@ export default function Step3({ step1Values }: { step1Values: Step1Values }) {
     <div className="space-y-5 text-center">
       <p className="text-brand-slate">Thanks, {step1Values.name.split(' ')[0]}!</p>
 
+      {/* No fixed height/overflow here — Cal's embed script measures its own
+          content and resizes the iframe to fit, which is what avoids the
+          inner scrollbar. A fixed height + overflow:scroll fights that. */}
       <CalEmbed
         namespace={CAL_NAMESPACE}
         calLink={CAL_LINK}
-        style={{ width: '100%', height: '570px', overflow: 'scroll' }}
+        style={{ width: '100%', height: '100%', overflow: 'auto', minHeight: '600px' }}
         config={{
           layout: 'month_view',
           name: step1Values.name,

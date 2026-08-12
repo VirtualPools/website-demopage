@@ -5,7 +5,7 @@ function VideoCard({ id, title }: { id: string; title: string }) {
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <div className="aspect-video overflow-hidden rounded-xl bg-black shadow-lg ring-1 ring-black/5">
+    <div className="aspect-9/16 overflow-hidden rounded-xl bg-black shadow-lg ring-1 ring-black/5">
       {loaded ? (
         <iframe
           className="h-full w-full"
