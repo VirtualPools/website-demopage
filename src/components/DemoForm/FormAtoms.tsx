@@ -184,15 +184,7 @@ export function NumberStepper({
   const increment = () => onChange(String(numeric + 1))
 
   return (
-    <div className="flex items-center gap-3">
-      <button
-        type="button"
-        onClick={decrement}
-        aria-label="Decrease"
-        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#d9d8d8] text-xl font-medium text-brand-blue transition hover:bg-brand-blue/5 active:scale-95"
-      >
-        −
-      </button>
+    <div className="flex items-center rounded-[5px] border border-[#d9d8d8] bg-white pl-4 transition focus-within:border-brand-blue focus-within:ring-1 focus-within:ring-brand-blue">
       <input
         id={id}
         type="text"
@@ -207,16 +199,26 @@ export function NumberStepper({
           e.preventDefault()
           onChange(digitsOnly(e.clipboardData.getData('text')))
         }}
-        className="w-full rounded-[5px] border border-[#d9d8d8] bg-white px-4 py-2.5 text-center text-brand-ink outline-none transition focus:border-brand-blue focus:ring-1 focus:ring-brand-blue"
+        className="w-full border-none bg-transparent py-2.5 text-brand-ink outline-none"
       />
-      <button
-        type="button"
-        onClick={increment}
-        aria-label="Increase"
-        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#d9d8d8] text-xl font-medium text-brand-blue transition hover:bg-brand-blue/5 active:scale-95"
-      >
-        +
-      </button>
+      <div className="flex shrink-0 items-stretch divide-x divide-[#d9d8d8] border-l border-[#d9d8d8]">
+        <button
+          type="button"
+          onClick={decrement}
+          aria-label="Decrease"
+          className="flex w-10 items-center justify-center text-lg font-medium text-brand-blue transition hover:bg-brand-blue/5 active:scale-95"
+        >
+          −
+        </button>
+        <button
+          type="button"
+          onClick={increment}
+          aria-label="Increase"
+          className="flex w-10 items-center justify-center text-lg font-medium text-brand-blue transition hover:bg-brand-blue/5 active:scale-95"
+        >
+          +
+        </button>
+      </div>
     </div>
   )
 }
