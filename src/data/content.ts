@@ -49,31 +49,32 @@ export const VIDEO_TESTIMONIALS = [
 export interface FeatureBlock {
   heading: string
   body: string
-  // TODO: replace with a locally hosted/optimized copy of this screenshot.
   imageSrc: string
   imageAlt: string
 }
 
+// Locally hosted placeholders (public/images/features/) — swap these files for the
+// real product screenshots when they're ready; content.ts won't need to change.
 export const FEATURE_BLOCKS: FeatureBlock[] = [
   {
     heading: 'We build your custom 3D pool configurator',
     body:
       'We do not hand you a generic tool and leave you to figure it out. After the demo, we build a custom 3D pool configurator tailored to your company, your product range, and your sales process. From pool shapes and finishes to covers, stairs, terraces, lighting, and more.',
-    imageSrc: `${CDN}/virtualpools-product-dashboard-configurator-01-2_RV4.webp`,
+    imageSrc: '/images/features/3d-pool-configurator.webp',
     imageAlt: 'VirtualPools 3D pool configurator dashboard',
   },
   {
     heading: "You place and visualize 3D pool designs in your customer's garden",
     body:
       'When all set up, your custom pool configurator becomes a powerful sales tool for presenting projects in 3D. Design pools directly in your client’s backyard, adjust every key detail in real time, and show how the final result fits the terrain. This means fewer revisions and faster approvals!',
-    imageSrc: `${CDN}/virtualpools-home-features-mobile-app-01-r1oh4.webp`,
+    imageSrc: '/images/features/garden-visualization.webp',
     imageAlt: 'VirtualPools mobile app placing a 3D pool design in a real garden',
   },
   {
     heading: 'The Lead Generator works in the background, attracting more leads',
     body:
       'Capture more qualified pool leads directly from your website with the AI-powered pool Lead Generator. Your visitors can generate their future pool visualizations in their own garden, while you collect their email address. VirtualPools helps pool contractors turn online traffic into real pool projects faster.',
-    imageSrc: `${CDN}/virtualpools-home-features-lead-generator-01-HJFmU.webp`,
+    imageSrc: '/images/features/lead-generator-widget.webp',
     imageAlt: 'VirtualPools AI-powered Lead Generator widget',
   },
 ]
