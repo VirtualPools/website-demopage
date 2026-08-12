@@ -88,10 +88,10 @@ export default function DemoExperience({ step, onStepChange }: { step: 1 | 2 | 3
   // /demo-step2 and /demo-step3 pages.
   return (
     <section id="top" className="bg-white pt-16 pb-20 sm:pt-24">
-      <div className="mx-auto max-w-xl px-6 text-center">
+      <div className="mx-auto max-w-2xl px-6 text-center">
         <StepHeading step={step} />
       </div>
-      <div id="demo-form" className="mx-auto mt-10 max-w-xl px-6">
+      <div id="demo-form" className="mx-auto mt-10 max-w-2xl px-6">
         {card}
       </div>
       <div className="mx-auto mt-16 max-w-2xl px-6">

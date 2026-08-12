@@ -38,7 +38,7 @@ export function RangeSlider({
               key={opt}
               type="button"
               onClick={() => onChange(opt)}
-              className={`relative px-0.5 pb-2 text-[11px] transition-colors sm:text-xs ${
+              className={`relative px-0.5 pb-2 text-center text-[11px] whitespace-nowrap transition-colors sm:text-xs ${
                 active ? 'font-semibold text-brand-blue' : 'text-brand-slate/60 hover:text-brand-slate'
               }`}
             >
