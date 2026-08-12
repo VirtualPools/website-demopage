@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   GOAL_OPTIONS,
@@ -11,7 +11,7 @@ import {
   type Step2Values,
 } from '../../lib/schemas'
 import { submitStep2 } from '../../lib/submitLead'
-import { FieldError, FieldLabel, PillOption, SubmitButton, SubmitError, inputClass } from './FormAtoms'
+import { FieldError, FieldLabel, MultiSelectOption, Select, SubmitButton, SubmitError, inputClass } from './FormAtoms'
 
 interface Step2Props {
   leadId: string
@@ -25,18 +25,12 @@ export default function Step2({ leadId, step1Values, defaultValues, onSuccess }:
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<Step2Values>({
     resolver: zodResolver(step2Schema),
-    defaultValues: { goals: [], wantsUpdates: false, ...defaultValues },
+    defaultValues: { goals: [], poolType: '', wantsUpdates: false, ...defaultValues },
   })
-
-  const selectedRole = watch('role')
-  const selectedPoolsPerYear = watch('poolsSoldPerYear')
-  const selectedGoals = watch('goals') ?? []
-  const selectedPoolType = watch('poolType')
-  const selectedRenovations = watch('doesRenovations')
 
   const onSubmit = async (values: Step2Values) => {
     setSubmitError(null)
@@ -63,34 +57,23 @@ export default function Step2({ leadId, step1Values, defaultValues, onSuccess }:
       </div>
 
       <div>
-        <FieldLabel required>Role</FieldLabel>
-        <div className="grid grid-cols-2 gap-2">
-          {ROLE_OPTIONS.map((opt) => (
-            <PillOption key={opt} htmlFor={`role-${opt}`} checked={selectedRole === opt}>
-              <input type="radio" id={`role-${opt}`} value={opt} className="sr-only" {...register('role')} />
-              {opt}
-            </PillOption>
-          ))}
-        </div>
+        <FieldLabel htmlFor="role" required>
+          Role
+        </FieldLabel>
+        <Select id="role" placeholder="Select your role" options={ROLE_OPTIONS} registration={register('role')} />
         <FieldError message={errors.role?.message} />
       </div>
 
       <div>
-        <FieldLabel required>How many pools do you sell per year?</FieldLabel>
-        <div className="grid grid-cols-4 gap-2">
-          {POOLS_SOLD_PER_YEAR_OPTIONS.map((opt) => (
-            <PillOption key={opt} htmlFor={`pools-${opt}`} checked={selectedPoolsPerYear === opt}>
-              <input
-                type="radio"
-                id={`pools-${opt}`}
-                value={opt}
-                className="sr-only"
-                {...register('poolsSoldPerYear')}
-              />
-              {opt}
-            </PillOption>
-          ))}
-        </div>
+        <FieldLabel htmlFor="poolsSoldPerYear" required>
+          How many pools do you sell per year?
+        </FieldLabel>
+        <Select
+          id="poolsSoldPerYear"
+          placeholder="Select a range"
+          options={POOLS_SOLD_PER_YEAR_OPTIONS}
+          registration={register('poolsSoldPerYear')}
+        />
         <FieldError message={errors.poolsSoldPerYear?.message} />
       </div>
 
@@ -111,48 +94,56 @@ export default function Step2({ leadId, step1Values, defaultValues, onSuccess }:
 
       <div>
         <FieldLabel required>What would you like to achieve with our tool?</FieldLabel>
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-          {GOAL_OPTIONS.map((opt) => (
-            <PillOption key={opt} htmlFor={`goal-${opt}`} checked={selectedGoals.includes(opt)}>
-              <input type="checkbox" id={`goal-${opt}`} value={opt} className="sr-only" {...register('goals')} />
-              {opt}
-            </PillOption>
-          ))}
-        </div>
+        <Controller
+          control={control}
+          name="goals"
+          render={({ field }) => (
+            <div className="flex flex-wrap gap-2">
+              {GOAL_OPTIONS.map((opt) => {
+                const selected = field.value?.includes(opt) ?? false
+                return (
+                  <MultiSelectOption
+                    key={opt}
+                    selected={selected}
+                    onClick={() => {
+                      const current = field.value ?? []
+                      field.onChange(selected ? current.filter((v) => v !== opt) : [...current, opt])
+                    }}
+                  >
+                    {opt}
+                  </MultiSelectOption>
+                )
+              })}
+            </div>
+          )}
+        />
         <FieldError message={errors.goals?.message} />
       </div>
 
       <div>
-        <FieldLabel>Which type of pools do you sell?</FieldLabel>
-        <div className="grid grid-cols-3 gap-2">
-          {POOL_TYPE_OPTIONS.map((opt) => (
-            <PillOption key={opt} htmlFor={`poolType-${opt}`} checked={selectedPoolType === opt}>
-              <input type="radio" id={`poolType-${opt}`} value={opt} className="sr-only" {...register('poolType')} />
-              {opt}
-            </PillOption>
-          ))}
-        </div>
+        <FieldLabel htmlFor="poolType">Which type of pools do you sell?</FieldLabel>
+        <Select
+          id="poolType"
+          placeholder="No preference"
+          options={POOL_TYPE_OPTIONS}
+          registration={register('poolType')}
+        />
         <FieldError message={errors.poolType?.message} />
       </div>
 
       <div>
-        <FieldLabel required>Do you do pool renovations?</FieldLabel>
-        <div className="grid grid-cols-2 gap-2">
-          <PillOption htmlFor="renovations-yes" checked={selectedRenovations === 'yes'}>
-            <input
-              type="radio"
-              id="renovations-yes"
-              value="yes"
-              className="sr-only"
-              {...register('doesRenovations')}
-            />
-            Yes
-          </PillOption>
-          <PillOption htmlFor="renovations-no" checked={selectedRenovations === 'no'}>
-            <input type="radio" id="renovations-no" value="no" className="sr-only" {...register('doesRenovations')} />
-            No
-          </PillOption>
-        </div>
+        <FieldLabel htmlFor="doesRenovations" required>
+          Do you do pool renovations?
+        </FieldLabel>
+        <Select
+          id="doesRenovations"
+          placeholder="Select an option"
+          options={[
+            { value: 'yes', label: 'Yes' },
+            { value: 'no', label: 'No' },
+          ]}
+          registration={register('doesRenovations')}
+        />
         <FieldError message={errors.doesRenovations?.message} />
       </div>
 

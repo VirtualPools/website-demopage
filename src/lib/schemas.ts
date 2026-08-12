@@ -41,7 +41,10 @@ export const step2Schema = z.object({
     .min(1, 'Enter a number')
     .refine((v) => /^\d+$/.test(v), 'Enter a whole number'),
   goals: z.array(z.enum(GOAL_OPTIONS)).min(1, 'Select at least one option'),
-  poolType: z.enum(POOL_TYPE_OPTIONS).optional(),
+  // Includes '' as a real member (the dropdown's placeholder value) rather than
+  // using z.optional() + a transform — keeps the input/output types identical,
+  // which is what the resolver's typing needs. Normalized to undefined in submitLead.ts.
+  poolType: z.enum(['', ...POOL_TYPE_OPTIONS]),
   // Modeled as a yes/no enum (rather than boolean) so it binds to native radio
   // inputs cleanly; converted to a real boolean when building the webhook payload.
   doesRenovations: z.enum(['yes', 'no'], { message: 'Select yes or no' }),

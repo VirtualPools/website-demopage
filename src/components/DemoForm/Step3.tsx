@@ -8,10 +8,7 @@ export default function Step3({ step1Values }: { step1Values: Step1Values }) {
 
   return (
     <div className="space-y-5 text-center">
-      <h3 className="text-2xl font-bold text-brand-ink">You're all set — pick a time</h3>
-      <p className="text-brand-slate">
-        Thanks, {step1Values.name.split(' ')[0]}! Choose a slot below and one of our founders will meet you there.
-      </p>
+      <p className="text-brand-slate">Thanks, {step1Values.name.split(' ')[0]}!</p>
 
       {/* TODO: Lemcal embed */}
       <div className="flex min-h-[420px] items-center justify-center rounded-[10px] border border-dashed border-[#d9d8d8] bg-slate-50 text-sm text-brand-slate">
