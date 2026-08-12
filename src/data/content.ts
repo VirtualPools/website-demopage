@@ -1,13 +1,10 @@
 /**
- * Copy, asset URLs, and structured content pulled from the live virtualpools.io/demo
- * (Dorik) pages. Asset URLs point at the existing CDN for now — swap for locally
- * hosted/optimized copies before shipping (see comments below).
+ * Copy and structured content pulled from the live virtualpools.io/demo (Dorik)
+ * pages. Images are downloaded locally under public/images/ rather than linking
+ * back to the original Dorik CDN.
  */
 
-const CDN = "https://cdn.cmsfly.com/69b3dfcab7962a0050345d4b/images";
-
-// TODO: replace with a locally hosted, optimized SVG instead of the Dorik CDN copy.
-export const LOGO_WHITE_URL = `${CDN}/virtualpools-logo-white-4tyHd.svg`;
+export const LOGO_WHITE_URL = "/images/logo/VirtualPoolsLogoWhite.svg";
 
 export const HERO_CONTENT = {
   heading: "We'll build your own, unique pool configurator.",
@@ -22,48 +19,20 @@ export const HERO_CONTENT = {
 
 export interface ClientLogo {
   name: string;
-  // TODO: replace with locally hosted/optimized copies of these client logos.
   src: string;
 }
 
 export const CLIENT_LOGOS: ClientLogo[] = [
-  {
-    name: "Renolit",
-    src: `${CDN}/virtualpools-client-logo-gradient-renolit-oMFM1.webp`,
-  },
-  {
-    name: "Haogenplast",
-    src: `${CDN}/virtualpools-client-logo-gradient-haogenplast-EvagS.webp`,
-  },
-  {
-    name: "Compass Pools",
-    src: `${CDN}/virtualpools-client-logo-gradient-compass-pools--y5_j.webp`,
-  },
-  { name: "TA", src: `${CDN}/virtualpools-client-logo-gradient-ta-YRLHn.webp` },
-  {
-    name: "Fluvo",
-    src: `${CDN}/virtualpools-client-logo-gradient-fluvo-gHzVz.webp`,
-  },
-  {
-    name: "LPW Pools",
-    src: `${CDN}/virtualpools-client-logo-gradient-lpw-pools-_ElpW.webp`,
-  },
-  {
-    name: "Duratech",
-    src: `${CDN}/virtualpools-client-logo-gradient-duratech-QRx8t.webp`,
-  },
-  {
-    name: "Scandiroc",
-    src: `${CDN}/virtualpools-client-logo-gradient-scandiroc-Nbg_j.webp`,
-  },
-  {
-    name: "Bluedrops",
-    src: `${CDN}/virtualpools-client-logo-gradient-bluedrops-y4Jen.webp`,
-  },
-  {
-    name: "Binder24",
-    src: `${CDN}/virtualpools-client-logo-gradient-binder24-hRgTe.webp`,
-  },
+  { name: "Renolit", src: "/images/clients/Renolit.webp" },
+  { name: "Haogenplast", src: "/images/clients/Haogenplast.webp" },
+  { name: "Compass Pools", src: "/images/clients/CompassPools.webp" },
+  { name: "TA", src: "/images/clients/TA.webp" },
+  { name: "Fluvo", src: "/images/clients/Fluvo.webp" },
+  { name: "LPW Pools", src: "/images/clients/LPWPools.webp" },
+  { name: "Duratech", src: "/images/clients/Duratech.webp" },
+  { name: "Scandiroc", src: "/images/clients/Scandiroc.webp" },
+  { name: "Bluedrops", src: "/images/clients/Bluedrops.webp" },
+  { name: "Binder24", src: "/images/clients/Binder24.webp" },
 ];
 
 // youtube-nocookie video IDs, taken from the embeds on the live page.
@@ -109,7 +78,6 @@ export const FEATURE_BLOCKS: FeatureBlock[] = [
 export interface TextTestimonial {
   quote: string;
   company: string;
-  // TODO: replace with locally hosted/optimized copies of these logos.
   logoSrc: string;
 }
 
