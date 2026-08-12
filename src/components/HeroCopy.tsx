@@ -17,7 +17,7 @@ function CheckIcon() {
 // DemoExperience.tsx and StepHeading.tsx).
 export default function HeroCopy() {
   return (
-    <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+    <motion.div className="min-w-0" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
       <h1 className="text-4xl font-bold leading-tight text-brand-ink sm:text-5xl">
         <HighlightText text={HERO_CONTENT.heading} words={['own', 'unique']} highlightClassName="text-brand-cyan" />
       </h1>

@@ -47,10 +47,10 @@ export default function LogoCarousel() {
         {logos.map((logo, i) => (
           <div
             key={`${logo.name}-${i}`}
-            className="flex shrink-0 items-center justify-center px-4"
+            className="flex shrink-0 items-center justify-center overflow-hidden px-4"
             style={{ width: `${100 / logos.length}%` }}
           >
-            <img src={logo.src} alt={logo.name} className="h-8 w-auto object-contain sm:h-9" />
+            <img src={logo.src} alt={logo.name} className="h-8 w-auto max-w-full object-contain sm:h-9" />
           </div>
         ))}
       </div>
