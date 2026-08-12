@@ -2,7 +2,8 @@ import { useMemo } from 'react'
 import { CLIENT_LOGOS } from '../data/content'
 
 const VISIBLE = 4
-// Fraction of each 1s step spent holding in place before sliding to the next logo.
+const STEP_SECONDS = 2
+// Fraction of each step spent holding in place before sliding to the next logo.
 const HOLD_RATIO = 0.7
 
 // Pure-CSS carousel: no JS timers, so there's no reset/flicker to get right.
@@ -40,7 +41,7 @@ export default function LogoCarousel() {
         className="flex"
         style={{
           width: `${(logos.length / VISIBLE) * 100}%`,
-          animation: `logo-carousel ${steps}s ease-in-out infinite`,
+          animation: `logo-carousel ${steps * STEP_SECONDS}s ease-in-out infinite`,
         }}
       >
         {logos.map((logo, i) => (
