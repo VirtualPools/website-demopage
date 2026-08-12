@@ -30,15 +30,22 @@ export function RangeSlider({
         onChange={(e) => onChange(options[Number(e.target.value)])}
         className="brand-range w-full"
       />
-      <div className="mt-2 flex justify-between">
+      {/* A native range thumb's center sits at `thumbRadius + fraction * (trackWidth -
+          thumbDiameter)`, not at a plain `fraction * 100%` — `flex justify-between`
+          lays labels out with a different formula entirely, so they only ever lined
+          up by coincidence. Positioning each label with that same thumb formula
+          (10px = half of the 20px thumb) keeps every label centered under its dot. */}
+      <div className="relative mt-2 h-8">
         {options.map((opt, i) => {
           const active = i === index
+          const fraction = options.length > 1 ? i / (options.length - 1) : 0
           return (
             <button
               key={opt}
               type="button"
               onClick={() => onChange(opt)}
-              className={`relative px-0.5 pb-2 text-center text-[11px] whitespace-nowrap transition-colors sm:text-xs ${
+              style={{ left: `calc(10px + ${fraction} * (100% - 20px))` }}
+              className={`absolute top-0 -translate-x-1/2 px-0.5 pb-2 text-center text-[11px] whitespace-nowrap transition-colors sm:text-xs ${
                 active ? 'font-semibold text-brand-blue' : 'text-brand-slate/60 hover:text-brand-slate'
               }`}
             >
