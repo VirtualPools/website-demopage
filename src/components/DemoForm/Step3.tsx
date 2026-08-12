@@ -1,19 +1,35 @@
+import { useEffect } from 'react'
+import CalEmbed, { getCalApi } from '@calcom/embed-react'
 import type { Step1Values } from '../../lib/schemas'
 
+const CAL_LINK = 'sander-de-roeck-vuaayi/30min'
+const CAL_NAMESPACE = '30min'
+
 export default function Step3({ step1Values }: { step1Values: Step1Values }) {
-  // TODO: Lemcal embed. Drop the real snippet in below.
-  // Nice-to-have if Lemcal supports it — prefill name/email via query params:
-  // const prefillUrl = `${LEMCAL_URL}?name=${encodeURIComponent(step1Values.name)}&email=${encodeURIComponent(step1Values.email)}`
-  void step1Values
+  // The bare <iframe src="…/embed"> Cal.com gives you in its "get the code" panel
+  // only renders once their embed.js has run the init handshake — without it the
+  // iframe just stays blank. @calcom/embed-react handles that script + handshake.
+  useEffect(() => {
+    ;(async () => {
+      const cal = await getCalApi({ namespace: CAL_NAMESPACE })
+      cal('ui', { layout: 'month_view' })
+    })()
+  }, [])
 
   return (
     <div className="space-y-5 text-center">
       <p className="text-brand-slate">Thanks, {step1Values.name.split(' ')[0]}!</p>
 
-      {/* TODO: Lemcal embed */}
-      <div className="flex min-h-[420px] items-center justify-center rounded-[10px] border border-dashed border-[#d9d8d8] bg-slate-50 text-sm text-brand-slate">
-        Lemcal booking widget placeholder
-      </div>
+      <CalEmbed
+        namespace={CAL_NAMESPACE}
+        calLink={CAL_LINK}
+        style={{ width: '100%', height: '570px', overflow: 'scroll' }}
+        config={{
+          layout: 'month_view',
+          name: step1Values.name,
+          email: step1Values.email,
+        }}
+      />
     </div>
   )
 }
