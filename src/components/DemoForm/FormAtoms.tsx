@@ -159,3 +159,28 @@ export function MultiSelectOption({
     </motion.button>
   )
 }
+
+// Yes/No switch — a real toggle always has a position, so unlike the other fields
+// there's no "unanswered" placeholder state; it defaults to "No" until touched.
+export function ToggleSwitch({ value, onChange }: { value: 'yes' | 'no'; onChange: (value: 'yes' | 'no') => void }) {
+  const isYes = value === 'yes'
+  return (
+    <div className="inline-flex items-center gap-3">
+      <span className={`text-sm font-medium ${!isYes ? 'text-brand-blue' : 'text-brand-slate'}`}>No</span>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={isYes}
+        onClick={() => onChange(isYes ? 'no' : 'yes')}
+        className={`relative h-7 w-12 shrink-0 rounded-full transition-colors ${isYes ? 'bg-brand-blue' : 'bg-slate-300'}`}
+      >
+        <motion.span
+          className="absolute top-0.5 left-0.5 h-6 w-6 rounded-full bg-white shadow"
+          animate={{ x: isYes ? 20 : 0 }}
+          transition={{ type: 'spring', stiffness: 500, damping: 32 }}
+        />
+      </button>
+      <span className={`text-sm font-medium ${isYes ? 'text-brand-blue' : 'text-brand-slate'}`}>Yes</span>
+    </div>
+  )
+}

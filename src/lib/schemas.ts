@@ -17,7 +17,8 @@ export const GOAL_OPTIONS = [
   'Not sure / nothing',
 ] as const
 
-export const POOL_TYPE_OPTIONS = ['Traditional (custom-built)', 'Monoblock (one-piece)', 'Both'] as const
+// No more "Both" option — it's a multi-select now, so picking both options directly covers that case.
+export const POOL_TYPE_OPTIONS = ['Traditional (custom-built)', 'Monoblock (one-piece)'] as const
 
 export const step1Schema = z.object({
   name: z.string().trim().min(1, 'Name is required'),
@@ -41,10 +42,8 @@ export const step2Schema = z.object({
     .min(1, 'Enter a number')
     .refine((v) => /^\d+$/.test(v), 'Enter a whole number'),
   goals: z.array(z.enum(GOAL_OPTIONS)).min(1, 'Select at least one option'),
-  // Includes '' as a real member (the dropdown's placeholder value) rather than
-  // using z.optional() + a transform — keeps the input/output types identical,
-  // which is what the resolver's typing needs. Normalized to undefined in submitLead.ts.
-  poolType: z.enum(['', ...POOL_TYPE_OPTIONS]),
+  // Multi-select, optional — an empty array means no preference.
+  poolType: z.array(z.enum(POOL_TYPE_OPTIONS)),
   // Modeled as a yes/no enum (rather than boolean) so it binds to native radio
   // inputs cleanly; converted to a real boolean when building the webhook payload.
   doesRenovations: z.enum(['yes', 'no'], { message: 'Select yes or no' }),

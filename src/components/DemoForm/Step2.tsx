@@ -11,7 +11,8 @@ import {
   type Step2Values,
 } from '../../lib/schemas'
 import { submitStep2 } from '../../lib/submitLead'
-import { FieldError, FieldLabel, MultiSelectOption, Select, SubmitButton, SubmitError, inputClass } from './FormAtoms'
+import { FieldError, FieldLabel, MultiSelectOption, Select, SubmitButton, SubmitError, ToggleSwitch, inputClass } from './FormAtoms'
+import { RangeSlider } from './Slider'
 
 interface Step2Props {
   leadId: string
@@ -29,7 +30,14 @@ export default function Step2({ leadId, step1Values, defaultValues, onSuccess }:
     formState: { errors, isSubmitting },
   } = useForm<Step2Values>({
     resolver: zodResolver(step2Schema),
-    defaultValues: { goals: [], poolType: '', wantsUpdates: false, ...defaultValues },
+    defaultValues: {
+      goals: [],
+      poolType: [],
+      poolsSoldPerYear: POOLS_SOLD_PER_YEAR_OPTIONS[0],
+      doesRenovations: 'no',
+      wantsUpdates: false,
+      ...defaultValues,
+    },
   })
 
   const onSubmit = async (values: Step2Values) => {
@@ -65,14 +73,13 @@ export default function Step2({ leadId, step1Values, defaultValues, onSuccess }:
       </div>
 
       <div>
-        <FieldLabel htmlFor="poolsSoldPerYear" required>
-          How many pools do you sell per year?
-        </FieldLabel>
-        <Select
-          id="poolsSoldPerYear"
-          placeholder="Select a range"
-          options={POOLS_SOLD_PER_YEAR_OPTIONS}
-          registration={register('poolsSoldPerYear')}
+        <FieldLabel htmlFor="poolsSoldPerYear">How many pools do you sell per year?</FieldLabel>
+        <Controller
+          control={control}
+          name="poolsSoldPerYear"
+          render={({ field }) => (
+            <RangeSlider id="poolsSoldPerYear" options={POOLS_SOLD_PER_YEAR_OPTIONS} value={field.value} onChange={field.onChange} />
+          )}
         />
         <FieldError message={errors.poolsSoldPerYear?.message} />
       </div>
@@ -121,28 +128,39 @@ export default function Step2({ leadId, step1Values, defaultValues, onSuccess }:
       </div>
 
       <div>
-        <FieldLabel htmlFor="poolType">Which type of pools do you sell?</FieldLabel>
-        <Select
-          id="poolType"
-          placeholder="No preference"
-          options={POOL_TYPE_OPTIONS}
-          registration={register('poolType')}
+        <FieldLabel>Which type of pools do you sell?</FieldLabel>
+        <Controller
+          control={control}
+          name="poolType"
+          render={({ field }) => (
+            <div className="flex flex-wrap gap-2">
+              {POOL_TYPE_OPTIONS.map((opt) => {
+                const selected = field.value?.includes(opt) ?? false
+                return (
+                  <MultiSelectOption
+                    key={opt}
+                    selected={selected}
+                    onClick={() => {
+                      const current = field.value ?? []
+                      field.onChange(selected ? current.filter((v) => v !== opt) : [...current, opt])
+                    }}
+                  >
+                    {opt}
+                  </MultiSelectOption>
+                )
+              })}
+            </div>
+          )}
         />
         <FieldError message={errors.poolType?.message} />
       </div>
 
       <div>
-        <FieldLabel htmlFor="doesRenovations" required>
-          Do you do pool renovations?
-        </FieldLabel>
-        <Select
-          id="doesRenovations"
-          placeholder="Select an option"
-          options={[
-            { value: 'yes', label: 'Yes' },
-            { value: 'no', label: 'No' },
-          ]}
-          registration={register('doesRenovations')}
+        <FieldLabel>Do you do pool renovations?</FieldLabel>
+        <Controller
+          control={control}
+          name="doesRenovations"
+          render={({ field }) => <ToggleSwitch value={field.value} onChange={field.onChange} />}
         />
         <FieldError message={errors.doesRenovations?.message} />
       </div>

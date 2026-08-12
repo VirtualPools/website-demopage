@@ -16,7 +16,8 @@ export interface Step2Payload extends Omit<Step1Payload, 'step'> {
   poolsSoldPerYear: string
   salesTeamSize: number
   goals: string[]
-  poolType?: string
+  // Multi-select now (was a single string in the original spec) — an empty array means no preference.
+  poolType: string[]
   doesRenovations: boolean
   hearAboutUs: string
   wantsUpdates: boolean
@@ -78,7 +79,7 @@ export function submitStep2(leadId: string, step1Values: Step1Values, step2Value
     poolsSoldPerYear: step2Values.poolsSoldPerYear,
     salesTeamSize: Number(step2Values.salesTeamSize),
     goals: step2Values.goals,
-    poolType: step2Values.poolType === '' ? undefined : step2Values.poolType,
+    poolType: step2Values.poolType,
     doesRenovations: step2Values.doesRenovations === 'yes',
     hearAboutUs: step2Values.hearAboutUs,
     wantsUpdates: step2Values.wantsUpdates,
